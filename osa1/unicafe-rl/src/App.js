@@ -1,5 +1,16 @@
 import { useState } from 'react'
 
+
+const Calculator = (props) => {
+  let All = props.good+props.neutral+props.bad
+  return(
+  <div>
+  <p>All: {All}</p>
+  <p>Average: {(props.good - props.bad)/All}</p>
+  <p>Positive reviews:{props.good/All} </p>
+  </div>
+  )
+}
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -10,9 +21,6 @@ const App = () => {
       <h1>Give Feedback!</h1>
       <button onClick={() => {
         setGood(good+1);
-        console.log(good)
-        console.log(neutral)
-        console.log(bad)
       }}>Good!</button>
 
       <button onClick={() => {
@@ -27,6 +35,7 @@ const App = () => {
       <p>Good: {good}</p>
       <p>Neutral: {neutral}</p>
       <p>Bad: {bad}</p>
+      <Calculator good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
