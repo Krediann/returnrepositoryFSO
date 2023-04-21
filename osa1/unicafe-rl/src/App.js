@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-const Calculator = (props) => {
+const Statistics = (props) => {
   let All = props.good+props.neutral+props.bad
   return(
   <div>
@@ -35,7 +35,7 @@ const App = () => {
       <p>Good: {good}</p>
       <p>Neutral: {neutral}</p>
       <p>Bad: {bad}</p>
-      <Calculator good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
