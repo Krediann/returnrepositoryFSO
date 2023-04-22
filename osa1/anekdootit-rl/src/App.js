@@ -10,12 +10,27 @@ const Button = (props) => {
 const Display = (props) => {
   return(
     <div>
+      <h1>Anecdote of the day!!!</h1>
       <p>{props.anecdotes[props.selected]}</p>
       <p>has{props.points[props.selected]}votes</p>
     </div>
   )
-}
+} 
+const MostVotedAnecdote = (props) => {
+  let mostVoted = 0;
 
+  for (let i = 1; i < props.points.length; i++){
+    if (props.points[i] > props.points[mostVoted]) {
+      mostVoted = i;
+    }
+  }
+  return (
+    <div>
+      <h1>Most voted Anecdote</h1>
+      <p>{props.anecdotes[mostVoted]}</p>
+    </div>
+  )
+}
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -43,6 +58,7 @@ const App = () => {
       <Display anecdotes = {anecdotes} selected = {selected} points={points} />
       <Button handleClick={() => addToPoints()} text="Vote!" points = {points} />
       <Button handleClick={() => setSelected(selected = Math.floor(Math.random() * anecdotes.length))} text="Next anecdote!" selected = {selected} />
+      <MostVotedAnecdote points = {points} anecdotes = {anecdotes} />
     </div>
   )
 }
