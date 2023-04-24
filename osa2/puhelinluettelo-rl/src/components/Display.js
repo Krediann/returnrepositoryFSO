@@ -8,7 +8,7 @@ const Button = (props) =>{
 
 const Display = (props) => {
   const persons = props.persons
-  const filter = props.filter
+  const {filter = "" } = props
   const deletePerson = props.deletePerson
   const filterPersons = (arr, filter) => {
     return arr.filter((person) => person.name.toLowerCase().includes(filter.toLowerCase()));

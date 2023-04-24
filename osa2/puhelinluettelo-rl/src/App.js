@@ -34,20 +34,31 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-
     const isCopy = persons.find(({name}) => name === newName)
     if (!isCopy){
       personsService
         .create(newPerson)
-        .then(res => {
-          setPersons([...persons, newPerson]);
+        .then(returnedPerson => {
+          setPersons([...persons, returnedPerson]);
       })
     }
     else {
-      alert(`${newName} is already added to phonebook! Haha >:)`)
+      updatePerson(isCopy.id)
     }
     setNewName("")
     setNewNumber("")
+  }
+
+  const updatePerson = (id) => {
+    if (window.confirm(`${newName} is already added to phonebook! Replace the old number with a new one?`) === true){
+      const person = persons.find(p => p.id === id)
+      const changedperson = {...person, number: newNumber}
+      personsService
+      .update(id, changedperson)
+      .then(returnedPerson => {
+        setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+      })
+    }
   }
 
   const deletePerson = (id, name) => {
@@ -59,6 +70,7 @@ const App = () => {
       })
     }
   }
+
   const handleNameChange = (e) => {
     setNewName(e.target.value)
   }
