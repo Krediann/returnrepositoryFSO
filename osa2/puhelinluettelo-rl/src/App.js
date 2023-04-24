@@ -1,17 +1,5 @@
 import { useState } from "react"
-
-const Display = (props) => {
-  const persons = props.persons
-  return(
-    <div>
-      {persons.map((person) => (
-        <div key = {person.name}>
-          <p>{person.name} {person.number}</p>
-        </div>
-      ))}
-    </div>
-  )
-}
+import Display from "./components/Display";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -23,9 +11,10 @@ const App = () => {
 
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
+  const [filter, setFilter] = useState("")
 
-  const addPerson = (event) => {
-    event.preventDefault()
+  const addPerson = (e) => {
+    e.preDefault()
     const newPerson = {
       name: newName,
       number: newNumber
@@ -42,12 +31,16 @@ const App = () => {
     setNewNumber("")
   }
 
-  const handleNameChange = (event) => {
-    setNewName(event.target.value)
+  const handleNameChange = (e) => {
+    setNewName(e.target.value)
   }
 
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
+  const handleNumberChange = (e) => {
+    setNewNumber(e.target.value)
+  }
+  
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value)
   }
 
   return (
@@ -56,7 +49,7 @@ const App = () => {
       <h1>Phonebook</h1>
       </div>
       <div>
-
+        Filter search results: <input value={filter} onChange={handleFilterChange} />
       </div>
       <div>
         <h2>Add a new person</h2>
@@ -64,7 +57,7 @@ const App = () => {
       <div>
         <form onSubmit={addPerson}>
           <div>
-            Name: <input type = "tel" value={newName} onChange={handleNameChange} />
+            Name: <input value={newName} onChange={handleNameChange} />
           </div>
           <div>
             Phonenumber: <input value={newNumber} onChange={handleNumberChange} />
@@ -73,8 +66,8 @@ const App = () => {
         </form>
       </div>
       <h2>Numbers</h2>
-      <Display persons = {persons} />
-      <div>debug: {newName}</div>
+      <Display persons = {persons} filter = {filter}/>
+      <div>debug: {newName}{newNumber}</div>
     </div>
   )
 }
