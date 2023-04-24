@@ -1,5 +1,7 @@
 import { useState } from "react"
-import Display from "./components/Display";
+import Display from "./components/Display"
+import Form from "./components/Form"
+import Filter from "./components/Filter"
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -14,7 +16,7 @@ const App = () => {
   const [filter, setFilter] = useState("")
 
   const addPerson = (e) => {
-    e.preDefault()
+    e.preventDefault()
     const newPerson = {
       name: newName,
       number: newNumber
@@ -48,22 +50,21 @@ const App = () => {
       <div>
       <h1>Phonebook</h1>
       </div>
-      <div>
-        Filter search results: <input value={filter} onChange={handleFilterChange} />
-      </div>
+      <Filter 
+      filter = {filter} 
+      handleFilterChange = {handleFilterChange}
+      />
       <div>
         <h2>Add a new person</h2>
       </div>
       <div>
-        <form onSubmit={addPerson}>
-          <div>
-            Name: <input value={newName} onChange={handleNameChange} />
-          </div>
-          <div>
-            Phonenumber: <input value={newNumber} onChange={handleNumberChange} />
-          </div>
-          <button type="submit">Add!</button>
-        </form>
+        <Form
+          newName = {newName}
+          newNumber = {newNumber}
+          handleNameChange = {handleNameChange}
+          handleNumberChange={handleNumberChange}
+          addPerson = {addPerson}
+        />
       </div>
       <h2>Numbers</h2>
       <Display persons = {persons} filter = {filter}/>
