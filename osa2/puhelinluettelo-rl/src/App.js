@@ -13,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("")
   const [filter, setFilter] = useState("")
   const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     axios
@@ -43,10 +44,10 @@ const App = () => {
         .then(returnedPerson => {
           setPersons([...persons, returnedPerson]);
       })
-      setMessage(`Added${newName}`)
+      setMessage(`Added ${newName}`)
       setTimeout(() => {
         setMessage(null)
-      }, 3000)
+      }, 5000)
     }
     else {
       updatePerson(isCopy.id)
@@ -63,11 +64,20 @@ const App = () => {
       .update(id, changedperson)
       .then(returnedPerson => {
         setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+        setMessage(`Updated ${person.name}'s phonenumber to: ${newNumber}`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
-      setMessage(`Updated${person.name}'s phonenumber to: ${newNumber}`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 3000)
+      .catch(error => {
+        console.log(error)
+        setErrorMessage(
+          `Data of ${person.name} has already been deleted from the server`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
     }
   }
 
@@ -81,7 +91,7 @@ const App = () => {
       setMessage(`Deleted ${name}'s info from the database`)
       setTimeout(() => {
         setMessage(null)
-      }, 3000)
+      }, 5000)
     }
   }
   const handleNameChange = (e) => {
@@ -99,7 +109,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={message} />
+      <Notification message={message} errorMessage = {errorMessage} />
       <Filter 
       filter = {filter} 
       handleFilterChange = {handleFilterChange}
