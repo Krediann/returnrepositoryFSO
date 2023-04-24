@@ -4,6 +4,7 @@ import axios from "axios"
 import Display from "./components/Display"
 import Form from "./components/Form"
 import Filter from "./components/Filter"
+import personsService from "./services/persons"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -19,7 +20,13 @@ const App = () => {
     })
   })
 
-
+  useEffect(() => {
+    personsService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
 
   const addPerson = (e) => {
     e.preventDefault()
@@ -27,9 +34,14 @@ const App = () => {
       name: newName,
       number: newNumber
     }
+
     const isCopy = persons.find(({name}) => name === newName)
     if (!isCopy){
-      setPersons([...persons, newPerson]);
+      personsService
+        .create(newPerson)
+        .then(res => {
+          setPersons([...persons, newPerson]);
+      })
     }
     else {
       alert(`${newName} is already added to phonebook! Haha >:)`)
@@ -37,6 +49,7 @@ const App = () => {
     setNewName("")
     setNewNumber("")
   }
+
 
   const handleNameChange = (e) => {
     setNewName(e.target.value)
