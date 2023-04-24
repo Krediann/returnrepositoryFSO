@@ -47,7 +47,7 @@ const PartList = (props) => {
     </div>
   )
 }
-
+//Making this change just so I can commit Task 2-3 since I had already done it with reduce :D
 const Total = (props) => {
   const course = props.course
   const total = course.parts.reduce((total, part) => total + part.exercises, 0)
