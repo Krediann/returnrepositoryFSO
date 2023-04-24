@@ -18,7 +18,7 @@ const App = () => {
     .then(res => {
       setPersons(res.data)
     })
-  })
+  }, [])
 
   useEffect(() => {
     personsService
@@ -26,7 +26,7 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
-  }, [])
+  })
 
   const addPerson = (e) => {
     e.preventDefault()
@@ -50,7 +50,15 @@ const App = () => {
     setNewNumber("")
   }
 
-
+  const deletePerson = (id, name) => {
+    if(window.confirm(`Are you sure you want to delete ${name}?`) ===true){
+    personsService
+      .del(id)
+      .then( res => {
+        setPersons(persons.filter(person => person.id !== id));
+      })
+    }
+  }
   const handleNameChange = (e) => {
     setNewName(e.target.value)
   }
@@ -85,10 +93,9 @@ const App = () => {
         />
       </div>
       <h2>Numbers</h2>
-      <Display persons = {persons} filter = {filter}/>
+      <div><Display persons = {persons} filter = {filter} deletePerson = {deletePerson} /></div>
       <div>debug: {newName}{newNumber}</div>
     </div>
   )
 }
-
 export default App

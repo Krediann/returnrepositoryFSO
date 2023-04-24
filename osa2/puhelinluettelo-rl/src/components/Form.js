@@ -10,9 +10,11 @@ const Form = (props) => {
         <div>
           Name: <input value={newName} onChange={handleNameChange} />
         </div>
+        <br></br>
         <div>
           Phonenumber: <input value={newNumber} onChange={handleNumberChange} />
         </div>
+        <br></br>
         <button type="submit">Add!</button>
       </form>
     </div>
