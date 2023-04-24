@@ -5,12 +5,14 @@ import Display from "./components/Display"
 import Form from "./components/Form"
 import Filter from "./components/Filter"
 import personsService from "./services/persons"
+import Notification from "./components/message"
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
   const [filter, setFilter] = useState("")
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     axios
@@ -41,6 +43,10 @@ const App = () => {
         .then(returnedPerson => {
           setPersons([...persons, returnedPerson]);
       })
+      setMessage(`Added${newName}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
     }
     else {
       updatePerson(isCopy.id)
@@ -58,6 +64,10 @@ const App = () => {
       .then(returnedPerson => {
         setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
       })
+      setMessage(`Updated${person.name}'s phonenumber to: ${newNumber}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
     }
   }
 
@@ -68,9 +78,12 @@ const App = () => {
       .then( res => {
         setPersons(persons.filter(person => person.id !== id));
       })
+      setMessage(`Deleted ${name}'s info from the database`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
     }
   }
-
   const handleNameChange = (e) => {
     setNewName(e.target.value)
   }
@@ -85,9 +98,8 @@ const App = () => {
 
   return (
     <div>
-      <div>
       <h1>Phonebook</h1>
-      </div>
+      <Notification message={message} />
       <Filter 
       filter = {filter} 
       handleFilterChange = {handleFilterChange}
