@@ -4,7 +4,6 @@ const Form = (props) => {
   const handleNameChange = props.handleNameChange
   const handleNumberChange = props.handleNumberChange
   const addPerson = props.addPerson
-  console.log(props)
   return(
     <div>
       <form onSubmit={addPerson}>
