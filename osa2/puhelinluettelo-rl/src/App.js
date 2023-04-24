@@ -24,7 +24,14 @@ const App = () => {
     const newPerson = {
       name: newName
     }
-    setPersons([...persons, newPerson]);
+    const isCopy = persons.find(({name}) => name === newName)
+    console.log(isCopy)
+    if (!isCopy){
+      setPersons([...persons, newPerson]);
+    }
+    else {
+      alert(`${newName} is already added to phonebook! Haha >:)`)
+    }
     setNewName("")
   }
 
